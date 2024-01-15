@@ -1,0 +1,5 @@
+[APP] - 2024-01-12 08:00:37:037 [31merror[39m: [31mCannot read properties of undefined (reading 'get')[39m
+[Index] - 2024-01-12 08:04:15:415 [31merror[39m: [31mCannot read properties of undefined (reading 'get')[39m
+[APP] - 2024-01-12 08:26:51:2651 [31merror[39m: [31mNest could not find ConfigService element (this provider does not exist in the current context)[39m
+[APP] - 2024-01-12 08:57:02:572 [31merror[39m: [31mNest could not find ConfigService element (this provider does not exist in the current context)[39m
+[APP] - 2024-01-12 09:03:11:311 [31merror[39m: [31mNest could not find ConfigService element (this provider does not exist in the current context)[39m
