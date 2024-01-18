@@ -2,6 +2,7 @@ import { config as dotenvConfig } from 'dotenv';
 import { join } from 'path';
 import { DataSourceOptions, DataSource } from 'typeorm';
 import { registerAs } from '@nestjs/config';
+import { SeederOptions } from 'typeorm-extension';
 dotenvConfig({ path: '.env' });
 
 const config = {
@@ -13,7 +14,8 @@ const config = {
   database: process.env.DB_DATABASE || '',
   charset: 'utf8mb4',
   entities: [join(__dirname, '../app/**/*.entity{.ts,.js}')],
-  migrations: ['app/migration/*.ts'],
+  migrations: ['app/db/migration/*.ts'],
+  seeds: ['app/db/seeds/**/*.ts'],
   migrationsRun: false,
   synchronize: false,
   logging: process.env.APP_STAGE === 'dev',
@@ -21,4 +23,6 @@ const config = {
 };
 
 export default registerAs('typeorm', () => config);
-export const connectionSource = new DataSource(config as DataSourceOptions);
+export const connectionSource = new DataSource(
+  config as DataSourceOptions & SeederOptions,
+);
