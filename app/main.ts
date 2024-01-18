@@ -8,6 +8,7 @@ dotenvConfig({ path: '.env' });
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const host = parseInt(process.env.APP_PORT);
 
   const config = new DocumentBuilder()
     .setTitle('Todo example')
@@ -19,6 +20,6 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(process.env.DB_PORT);
+  await app.listen(host);
 }
 bootstrap();
