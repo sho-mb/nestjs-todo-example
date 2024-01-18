@@ -1,10 +1,10 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { config } from 'dotenv';
+import { config as dotenvConfig } from 'dotenv';
 import { join } from 'path';
+import { DataSourceOptions, DataSource } from 'typeorm';
+import { registerAs } from '@nestjs/config';
+dotenvConfig({ path: '.env' });
 
-config({ path: '.env' });
-
-export const typeormConfig: TypeOrmModuleOptions = {
+const config = {
   type: 'mysql',
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT),
@@ -12,11 +12,13 @@ export const typeormConfig: TypeOrmModuleOptions = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE || '',
   charset: 'utf8mb4',
-  keepConnectionAlive: true,
   entities: [join(__dirname, '../app/**/*.entity{.ts,.js}')],
+  migrations: ['app/migration/*.ts'],
   migrationsRun: false,
-  synchronize: true,
+  synchronize: false,
   logging: process.env.APP_STAGE === 'dev',
-  autoLoadEntities: true,
   timezone: process.env.DB_TZ || process.env.APP_TZ || 'local',
 };
+
+export default registerAs('typeorm', () => config);
+export const connectionSource = new DataSource(config as DataSourceOptions);

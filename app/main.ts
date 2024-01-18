@@ -1,11 +1,14 @@
 import { NestFactory } from '@nestjs/core';
+import { config as dotenvConfig } from 'dotenv';
 import { AppModule } from './app.module';
 import 'reflect-metadata';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+dotenvConfig({ path: '.env' });
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const host = parseInt(process.env.APP_PORT);
 
   const config = new DocumentBuilder()
     .setTitle('Todo example')
@@ -17,6 +20,6 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(3000);
+  await app.listen(host);
 }
 bootstrap();
